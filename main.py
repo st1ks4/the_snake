@@ -52,7 +52,8 @@ class Snake(GameObject):
         """Отрисовывает змейку на экране."""
         for segment in self.body:
             pygame.draw.rect(
-                surface, self.color, (segment[0], segment[1], GRID_SIZE, GRID_SIZE)
+                surface, self.color,
+                (segment[0], segment[1], GRID_SIZE, GRID_SIZE)
             )
 
 
