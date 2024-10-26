@@ -58,6 +58,7 @@ class Apple(GameObject):
     """Класс для яблока."""
 
     def __init__(self):
+        super().__init__(0, 0, APPLE_COLOR)
         self.randomize_position()
 
     def randomize_position(self):
@@ -65,10 +66,36 @@ class Apple(GameObject):
         self.x = random.randint(0, (WIDTH // GRID_SIZE) - 1) * GRID_SIZE
         self.y = random.randint(0, (HEIGHT // GRID_SIZE) - 1) * GRID_SIZE
 
-    def draw(self, surface):
-        """Отрисовывает яблоко на экране."""
-        pygame.draw.rect(surface, APPLE_COLOR,
-                         (self.x, self.y, GRID_SIZE, GRID_SIZE))
+
+def handle_events(snake):
+    """Обрабатывает события пользовательского ввода."""
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            return False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                snake.change_direction((0, -GRID_SIZE))
+            elif event.key == pygame.K_DOWN:
+                snake.change_direction((0, GRID_SIZE))
+            elif event.key == pygame.K_LEFT:
+                snake.change_direction((-GRID_SIZE, 0))
+            elif event.key == pygame.K_RIGHT:
+                snake.change_direction((GRID_SIZE, 0))
+    return True
+
+
+def check_collisions(snake, apple):
+    """Проверяет столкновения змейки с яблоком и самой собой."""
+    # Проверка на столкновение с яблоком
+    if snake.body[0] == (apple.x, apple.y):
+        snake.grow()
+        apple.randomize_position()
+
+    # Проверка на столкновение с собой
+    if snake.body[0] in snake.body[1:]:
+        print("Игра окончена! Змейка столкнулась с собой.")
+        return False
+    return True
 
 
 def main():
@@ -85,31 +112,13 @@ def main():
 
     while running:
         # Обработка событий
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    snake.change_direction((0, -GRID_SIZE))
-                elif event.key == pygame.K_DOWN:
-                    snake.change_direction((0, GRID_SIZE))
-                elif event.key == pygame.K_LEFT:
-                    snake.change_direction((-GRID_SIZE, 0))
-                elif event.key == pygame.K_RIGHT:
-                    snake.change_direction((GRID_SIZE, 0))
+        running = handle_events(snake)
 
         # Движение змейки
         snake.move()
 
-        # Проверка на столкновение с яблоком
-        if snake.body[0] == (apple.x, apple.y):
-            snake.grow()
-            apple.randomize_position()
-
-        # Проверка на столкновение с собой
-        if snake.body[0] in snake.body[1:]:
-            print("Игра окончена! Змейка столкнулась с собой.")
-            running = False
+        # Проверка столкновений
+        running = running and check_collisions(snake, apple)
 
         # Отрисовка объектов
         screen.fill(BG_COLOR)
@@ -127,4 +136,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
