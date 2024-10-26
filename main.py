@@ -20,9 +20,7 @@ class GameObject:
     def draw(self, surface):
         """Отрисовывает объект на экране."""
         pygame.draw.rect(
-            surface,
-            self.color,
-            (self.x, self.y, GRID_SIZE, GRID_SIZE)
+            surface, self.color, (self.x, self.y, GRID_SIZE, GRID_SIZE)
         )
 
 
@@ -54,9 +52,7 @@ class Snake(GameObject):
         """Отрисовывает змейку на экране."""
         for segment in self.body:
             pygame.draw.rect(
-                surface,
-                self.color,
-                (segment[0], segment[1], GRID_SIZE, GRID_SIZE),
+                surface, self.color, (segment[0], segment[1], GRID_SIZE, GRID_SIZE)
             )
 
 
@@ -136,3 +132,9 @@ def main():
 
         # Ограничение FPS
         clock.tick(10)  # Скорость игры
+
+    pygame.quit()
+
+
+if __name__ == '__main__':
+    main()
