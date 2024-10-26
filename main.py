@@ -20,7 +20,9 @@ class GameObject:
     def draw(self, surface):
         """Отрисовывает объект на экране."""
         pygame.draw.rect(
-            surface, self.color, (self.x, self.y, GRID_SIZE, GRID_SIZE)
+            surface,
+            self.color,
+            (self.x, self.y, GRID_SIZE, GRID_SIZE)
         )
 
 
@@ -133,3 +135,4 @@ def main():
         pygame.display.update()
 
         # Ограничение FPS
+        clock.tick(10)  # Скорость игры
