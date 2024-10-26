@@ -19,8 +19,9 @@ class GameObject:
 
     def draw(self, surface):
         """Отрисовывает объект на экране."""
-        pygame.draw.rect(surface, self.color,
-                         (self.x, self.y, GRID_SIZE, GRID_SIZE))
+        pygame.draw.rect(
+            surface, self.color, (self.x, self.y, GRID_SIZE, GRID_SIZE)
+        )
 
 
 class Snake(GameObject):
@@ -50,8 +51,9 @@ class Snake(GameObject):
     def draw(self, surface):
         """Отрисовывает змейку на экране."""
         for segment in self.body:
-            pygame.draw.rect(surface, self.color,
-                             (segment[0], segment[1], GRID_SIZE, GRID_SIZE))
+            pygame.draw.rect(
+                surface, self.color, (segment[0], segment[1], GRID_SIZE, GRID_SIZE)
+            )
 
 
 class Apple(GameObject):
